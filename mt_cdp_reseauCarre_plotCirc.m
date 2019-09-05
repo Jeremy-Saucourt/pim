@@ -6,8 +6,6 @@ function [mt,diffrac] = mt_cdp_reseauCarre_plotCirc( reseau, filtre )
         nd = sqrt(reseau.n) ;
     end
 
-
-    
     %% Matrice de diffraction
     %%% Matrice de diffraction d'une ligne
     L(1) = 1 ;
@@ -31,8 +29,8 @@ function [mt,diffrac] = mt_cdp_reseauCarre_plotCirc( reseau, filtre )
     end
 
 
-    %% Matrices de transfert du syst�me � contraste de phase
-    mt =(filtre.beta)*(eye(reseau.n))+2*pi^2*(exp(1i*filtre.dphi)-filtre.beta)*(0.5*filtre.gamma*reseau.eta/sqrt(reseau.n))^2*diffracF ; % Matrice de transfert
+    %% Matrice de transfert
+    mt =(filtre.beta)*(eye(reseau.n))+2*pi^2*(exp(1i*filtre.dphi)-filtre.beta)*(0.61*filtre.gamma*reseau.eta/sqrt(reseau.n))^2*diffracF ; % Matrice de transfert
     mt = mt/max(max(abs(mt))) ; % Normalisation
     diffrac = diffracF ;
 end
