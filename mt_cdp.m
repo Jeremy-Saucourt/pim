@@ -1,20 +1,41 @@
 function [ mt, diffrac ] = mt_cdp( reseau, filtre )
     %% Matrice de couplage diffractif
-    [ diffrac, coeff ] = mc_diffrac( reseau, filtre ) ;
+    [ diffrac ] = mc_diffrac( reseau, filtre ) ;
     
     %% Matrice 
     switch lower(reseau.maille)
         case 'lineaire'
-            % Maille lineaire, plot fente
-            mt = filtre.beta*eye(reseau.n) + (exp(1i*filtre.dphi)-filtre.beta)*(sqrt(pi)*filtre.gamma*reseau.eta/reseau.n)*diffrac ;
-
+            switch lower(filtre.plot)
+                case 'fente'
+                    % Maille lineaire, plot fente
+                    mt = filtre.beta*eye(reseau.n) + (exp(1i*filtre.dphi)-filtre.beta)*(sqrt(pi)*filtre.gamma*reseau.eta/reseau.n)*diffrac ;
+                otherwise
+                    error('Couple (Type de réseau ; Plot du filtre) non existant ou non implémenté')
+            end
+            
         case 'carree'
-            % Maille carrée, plot carré
-            mt = filtre.beta*eye(reseau.n) + (exp(1i*filtre.dphi)-filtre.beta)*(sqrt(pi)*filtre.gamma*reseau.eta/sqrt(reseau.n))^2*diffrac ;
+            switch lower(filtre.plot)
+                case 'carre'
+                    % Maille carrée, plot carré
+                    mt = filtre.beta*eye(reseau.n) + (exp(1i*filtre.dphi)-filtre.beta)*(sqrt(pi)*filtre.gamma*reseau.eta/reseau.nd)^2*diffrac ;
+                case 'disque'
+                    % Maille carrée, plot disque
+                    mt = filtre.beta*eye(reseau.n) + (exp(1i*filtre.dphi)-filtre.beta)*2*pi^2*(0.61*filtre.gamma*reseau.eta/reseau.nd)^2*diffrac ;
+                otherwise
+                    error('Couple (Type de réseau ; Plot du filtre) non existant ou non implémenté')
+            end
             
         case 'hexagonale'
-            % Maille hexa, plot disque
-            mt = filtre.beta*eye(reseau.n) + (exp(1i*filtre.dphi)-filtre.beta)*2*pi^2*(0.61*filtre.gamma*reseau.eta/sqrt(reseau.n))^2*diffrac ;
+            switch lower(filtre.plot)
+                case 'carre'
+                    % Maille hexa, plot carré
+                    mt = filtre.beta*eye(reseau.n) + (exp(1i*filtre.dphi)-filtre.beta)*(sqrt(pi)*filtre.gamma*reseau.eta/reseau.nd)^2*diffrac ;
+                case 'disque'
+                    % Maille hexa, plot disque
+                    mt = filtre.beta*eye(reseau.n) + (exp(1i*filtre.dphi)-filtre.beta)*2*pi^2*(0.61*filtre.gamma*reseau.eta/reseau.nd)^2*diffrac ;
+                otherwise
+                    error('Couple (Type de réseau ; Plot du filtre) non existant ou non implémenté')
+            end
             
         otherwise
             error('Type de réseau non existant ou non implémenté')

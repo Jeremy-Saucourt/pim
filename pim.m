@@ -8,12 +8,12 @@ rng('shuffle') ;
 
 
 %% Paramètres du réseau
-reseau.n = 3 ; % Nombre de faisceaux
+reseau.n = 19 ; % Nombre de faisceaux
 reseau.p = 500e-6 ; % Entraxe des faisceaux [m]
-reseau.w0 = 200e-6 ; % Demi-largeur des faisceaux à 1/e² en intensité [m]
+reseau.w0 = 125e-6 ; % Demi-largeur des faisceaux à 1/e² en intensité [m]
 reseau.eta = 2*reseau.w0/reseau.p ; % Taux de remplissage du réseau
 reseau.lambda = 980e-9 ; % Longueur d'onde du rayonnement [m]
-reseau.maille = 'lineaire' ; % Type de maille ('lineaire','carree' ou 'hexagonale')
+reseau.maille = 'hexagonale' ; % Type de maille ('lineaire','carree' ou 'hexagonale')
 [ reseau.pos, reseau.nd ] = positionsEmetteurs( reseau ) ;
 
 
@@ -22,7 +22,7 @@ filtre.gamma = 0.5 ; % Rapport entre le diamètre du filtre et le diamètre du lob
 filtre.beta2 = 0.04 ; % Transmissivité périphérique en intensité
 filtre.beta = sqrt(filtre.beta2) ; % Transmissivité périphérique en champ
 filtre.dphi = pi/2 ; % Déphasage entre le plot central et la périphérie [rad]
-filtre.plot = 'fente' ; % Type de plot déphasant : 'carre' ou 'disque'
+filtre.plot = 'disque' ; % Type de plot déphasant : 'carre' ou 'disque'
 
 
 %% Matrice de transfert (conversion phase intensité)

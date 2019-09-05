@@ -20,8 +20,7 @@ dphi = pi/2 ; % Déphasage entre le plot central et la périphérie [rad]
 L(1) = 1 ;
 itx = 1:(n-1) ;
 L(itx+1) = sin(2*gamma*pi*itx/n)./(2*gamma*pi*itx/n) ;
-L(itx+1) = besselj(0,2*gamma*pi*itx/n)./(2*gamma*pi*itx/n) ;
-
+L(itx+1) = besselj(1,2*gamma*pi*itx/n)./(2*gamma*pi*itx/n) ;
 diffrac = toeplitz(L,L) ;
 
 

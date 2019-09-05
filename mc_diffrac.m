@@ -1,4 +1,4 @@
-function [ diffrac, coeff ] = mc_diffrac( reseau, filtre )
+function [ diffrac ] = mc_diffrac( reseau, filtre )
 
     posdiffr = nan(reseau.n) ;
     posdiffx = nan(reseau.n,1) ;
@@ -12,7 +12,6 @@ function [ diffrac, coeff ] = mc_diffrac( reseau, filtre )
     diffrac = nan(reseau.n) ;
     switch lower(filtre.plot)
         case 'fente'
-            coeff = 1 ;
             for i=1:reseau.n
                 for j=1:reseau.n
                     if i==j
@@ -27,12 +26,10 @@ function [ diffrac, coeff ] = mc_diffrac( reseau, filtre )
             end
         
         case 'carre'
-            coeff = 1 ;
             for i=1:reseau.n
                 for j=1:reseau.n
                     if i==j
                         diffrac(i,j) = 1 ;
-                        keyboard
                     else
                         diffrac(i,j) = abs( ...
                                             sin(2*filtre.gamma*pi*posdiffx(j)/reseau.nd) ...
@@ -44,7 +41,6 @@ function [ diffrac, coeff ] = mc_diffrac( reseau, filtre )
             
             
         case 'disque'
-            coeff = 1 ;
             for i=1:reseau.n
                 for j=1:reseau.n
                     if i==j
