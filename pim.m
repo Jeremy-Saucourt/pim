@@ -22,7 +22,7 @@ filtre.gamma = 0.5 ; % Rapport entre le diamètre du filtre et le diamètre du lob
 filtre.beta2 = 0.04 ; % Transmissivité périphérique en intensité
 filtre.beta = sqrt(filtre.beta2) ; % Transmissivité périphérique en champ
 filtre.dphi = pi/2 ; % Déphasage entre le plot central et la périphérie [rad]
-filtre.plot = 'fente' ; % Type de plot déphasant : 'carre' ou 'disque'
+filtre.plot = 'disque' ; % Type de plot déphasant : 'carre' ou 'disque'
 
 
 %% Matrice de transfert (conversion phase intensité)
@@ -44,7 +44,7 @@ algo.nbActionMax = 80 ; % Nombre d'actionnement maximal des modulateurs de phase
 
 algo.mt = mt ; % Matrice de transfert de la conversion phase-intensité
 algo.mti = inv(mt) ; % Inverse de la matrice de transfert de la conversion phase-intensité
-algo.xc = ones(algo.n,1) ;%.*exp(1i*[0 0.1 0.2 ]') ; % Champ complexe cible
+algo.xc = ones(algo.n,1) ;% .*exp(1i*[0 0.1 0.2 ]') ; % Champ complexe cible
 algo.yc = algo.mt*algo.xc ; % Champ complexe cible après filtrage
 algo.gain = 1 ;
 

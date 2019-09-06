@@ -9,6 +9,9 @@ function [ mt, diffrac ] = mt_cdp( reseau, filtre )
                 case 'fente'
                     % Maille lineaire, plot fente
                     mt = filtre.beta*eye(reseau.n) + (exp(1i*filtre.dphi)-filtre.beta)*(sqrt(pi)*filtre.gamma*reseau.eta/reseau.n)*diffrac ;
+                case 'disque'
+                    % Maille linéaire, plot disque (vérifier le calcul)
+                    mt = filtre.beta*eye(reseau.n) + (exp(1i*filtre.dphi)-filtre.beta)*sqrt(2)*pi*(0.61*filtre.gamma*reseau.eta/reseau.n)*diffrac ;
                 otherwise
                     error('Couple (Type de réseau ; Plot du filtre) non existant ou non implémenté')
             end
