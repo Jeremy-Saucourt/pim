@@ -15,7 +15,7 @@ function [ Q, phi ] = pim_loop( algo )
             b = abs(algo.mt*champk).*exp(1i*angle(algo.yc)) ;
             corr = angle(algo.mti*b) ;
 
-            champk = champk.*exp(-1i*algo.gain*corr).*exp(1i*angle(algo.xc)) ;
+            champk = champk.*exp(-1i*algo.gain*corr) ; %.*exp(1i*angle(algo.xc)) ;
         end
     end
 end

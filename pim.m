@@ -8,12 +8,12 @@ rng('shuffle') ;
 
 
 %% Paramètres du réseau
-reseau.n = 19 ; % Nombre de faisceaux
+reseau.n = 3 ; % Nombre de faisceaux
 reseau.p = 500e-6 ; % Entraxe des faisceaux [m]
-reseau.w0 = 125e-6 ; % Demi-largeur des faisceaux à 1/e² en intensité [m]
+reseau.w0 = 60e-6 ; % Demi-largeur des faisceaux à 1/e² en intensité [m]
 reseau.eta = 2*reseau.w0/reseau.p ; % Taux de remplissage du réseau
 reseau.lambda = 980e-9 ; % Longueur d'onde du rayonnement [m]
-reseau.maille = 'hexagonale' ; % Type de maille ('lineaire','carree' ou 'hexagonale')
+reseau.maille = 'lineaire' ; % Type de maille ('lineaire','carree' ou 'hexagonale')
 [ reseau.pos, reseau.nd ] = positionsEmetteurs( reseau ) ;
 
 
@@ -22,7 +22,7 @@ filtre.gamma = 0.5 ; % Rapport entre le diamètre du filtre et le diamètre du lob
 filtre.beta2 = 0.04 ; % Transmissivité périphérique en intensité
 filtre.beta = sqrt(filtre.beta2) ; % Transmissivité périphérique en champ
 filtre.dphi = pi/2 ; % Déphasage entre le plot central et la périphérie [rad]
-filtre.plot = 'disque' ; % Type de plot déphasant : 'carre' ou 'disque'
+filtre.plot = 'fente' ; % Type de plot déphasant : 'carre' ou 'disque'
 
 
 %% Matrice de transfert (conversion phase intensité)
@@ -37,15 +37,18 @@ filtre.plot = 'disque' ; % Type de plot déphasant : 'carre' ou 'disque'
 %% Paramètres de l'algorithme PIM
 algo.n = reseau.n ; % Nombre d'émetteurs à cophaser
 algo.nbMoy = 100 ; % Nombre de tirages à phases aléatoires à réaliser
-algo.nbActionMax = 20 ; % Nombre d'actionnement maximal des modulateurs de phase
-% load('matrice_meprep1.mat') ;
+algo.nbActionMax = 80 ; % Nombre d'actionnement maximal des modulateurs de phase
+% load('matrice_meprep2.mat') ;
 % mt = M ;
 % mt = mt/abs(max(max(mt))) ;
+
 algo.mt = mt ; % Matrice de transfert de la conversion phase-intensité
 algo.mti = inv(mt) ; % Inverse de la matrice de transfert de la conversion phase-intensité
-algo.xc = ones(algo.n,1) ; % Champ complexe cible
+algo.xc = ones(algo.n,1) ;%.*exp(1i*[0 0.1 0.2 ]') ; % Champ complexe cible
 algo.yc = algo.mt*algo.xc ; % Champ complexe cible après filtrage
 algo.gain = 1 ;
+
+%algo.mt = algo.mt.*exp(1i*[0 0.5 1]) ;
 
 
 %%% Boucle PIM
@@ -80,4 +83,9 @@ figure(2),clf,hold on
     title({['Qualité de cophasage'],['(statistiques calculées à partir de ' num2str(algo.nbMoy) ' tirages)']}),xlabel('N° actionnement'),ylabel('Q')
     legend([hd(1),hs.meanplot,hs.fillplot],'Un tirage','Moyenne','Ecart-type','Location','SouthEast')
     
-    
+figure(3),clf,hold on
+    plot(1:algo.nbActionMax,squeeze(algo.phi(1,:,:))) ;
+    axis([0 algo.nbActionMax -pi pi])
+    box on,grid on
+    title({['Evolution des phases du réseau pour un test']}),xlabel('N° actionnement'),ylabel('Phase [rad]')
+      
