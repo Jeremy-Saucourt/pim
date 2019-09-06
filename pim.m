@@ -8,9 +8,9 @@ rng('shuffle') ;
 
 
 %% Paramètres du réseau
-reseau.n = 3 ; % Nombre de faisceaux
+reseau.n = 7 ; % Nombre de faisceaux
 reseau.p = 500e-6 ; % Entraxe des faisceaux [m]
-reseau.w0 = 60e-6 ; % Demi-largeur des faisceaux à 1/e² en intensité [m]
+reseau.w0 = 200e-6 ; % Demi-largeur des faisceaux à 1/e² en intensité [m]
 reseau.eta = 2*reseau.w0/reseau.p ; % Taux de remplissage du réseau
 reseau.lambda = 980e-9 ; % Longueur d'onde du rayonnement [m]
 reseau.maille = 'lineaire' ; % Type de maille ('lineaire','carree' ou 'hexagonale')
@@ -44,7 +44,7 @@ algo.nbActionMax = 80 ; % Nombre d'actionnement maximal des modulateurs de phase
 
 algo.mt = mt ; % Matrice de transfert de la conversion phase-intensité
 algo.mti = inv(mt) ; % Inverse de la matrice de transfert de la conversion phase-intensité
-algo.xc = ones(algo.n,1) ;% .*exp(1i*[0 0.1 0.2 ]') ; % Champ complexe cible
+algo.xc = ones(algo.n,1) ;%  .*exp(1i*[0 0.1 0.2 ]') ; % Champ complexe cible
 algo.yc = algo.mt*algo.xc ; % Champ complexe cible après filtrage
 algo.gain = 1 ;
 
