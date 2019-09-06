@@ -1,11 +1,9 @@
 function [ diffrac ] = mc_diffrac( reseau, filtre )
 
     posdiffr = nan(reseau.n) ;
-    posdiffx = nan(reseau.n,1) ;
     for i=1:reseau.n
         for j=1:reseau.n
             posdiffr(i,j) = sqrt((reseau.pos.x(i)-reseau.pos.x(j))^2+(reseau.pos.y(i)-reseau.pos.y(j))^2) ;
-%             posdiffx(i) = abs((reseau.pos.x(i)-reseau.pos.x(j))) ;
         end
     end
     
@@ -32,8 +30,8 @@ function [ diffrac ] = mc_diffrac( reseau, filtre )
                         diffrac(i,j) = 1 ;
                     else
                         diffrac(i,j) = abs( ...
-                                            sin(2*filtre.gamma*pi*posdiffx(j)/reseau.nd) ...
-                                            ./(2*filtre.gamma*pi*posdiffx(j)/reseau.nd) ...
+                                            sin(2*filtre.gamma*pi*posdiffr(j)/reseau.nd) ...
+                                            ./(2*filtre.gamma*pi*posdiffr(j)/reseau.nd) ...
                                           ) ;
                     end
                 end
