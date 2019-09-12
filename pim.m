@@ -10,7 +10,7 @@ rng('shuffle') ;
 %% Paramètres du réseau
 reseau.n = 7 ; % Nombre de faisceaux
 reseau.p = 500e-6 ; % Entraxe des faisceaux [m]
-reseau.w0 = 200e-6 ; % Demi-largeur des faisceaux à 1/e² en intensité [m]
+reseau.w0 = 60e-6 ; % Demi-largeur des faisceaux à 1/e² en intensité [m]
 reseau.eta = 2*reseau.w0/reseau.p ; % Taux de remplissage du réseau
 reseau.lambda = 980e-9 ; % Longueur d'onde du rayonnement [m]
 reseau.maille = 'lineaire' ; % Type de maille ('lineaire','carree' ou 'hexagonale')
@@ -18,7 +18,7 @@ reseau.maille = 'lineaire' ; % Type de maille ('lineaire','carree' ou 'hexagonal
 
 
 %% Paramètres du filtre spatial
-filtre.gamma = 0.5 ; % Rapport entre le diamètre du filtre et le diamètre du lobe central en champ lointain
+filtre.gamma = 1 ; % Rapport entre le diamètre du filtre et le diamètre du lobe central en champ lointain
 filtre.beta2 = 0.04 ; % Transmissivité périphérique en intensité
 filtre.beta = sqrt(filtre.beta2) ; % Transmissivité périphérique en champ
 filtre.dphi = pi/2 ; % Déphasage entre le plot central et la périphérie [rad]
@@ -26,12 +26,16 @@ filtre.plot = 'disque' ; % Type de plot déphasant : 'carre' ou 'disque'
 
 
 %% Matrice de transfert (conversion phase intensité)
+load('test.mat') ;
+mt2 = mt ;
 [ mt, diffrac ] = mt_cdp( reseau, filtre ) ;
+% csvwrite('FTORe3.csv',real(mt))
+% csvwrite('FTOIm3.csv',imag(mt))
 
 % [ mt,diffrac ] = mt_cdp_reseauLineaire_plotFente( reseau, filtre ) ;
 % [ mt,diffrac ] = mt_cdp_reseauCarre_plotCarre( reseau, filtre ) ;
 % [ mt,diffrac ] = mt_cdp_reseauCarre_plotCarre_pos( reseau, filtre ) ;
-% [mt,diffrac] = mt_cdp_reseauCarre_plotCirc( reseau, filtre ) ;
+% [ mt,diffrac ] = mt_cdp_reseauCarre_plotCirc( reseau, filtre ) ;
 
 
 %% Paramètres de l'algorithme PIM
@@ -46,9 +50,10 @@ algo.mt = mt ; % Matrice de transfert de la conversion phase-intensité
 algo.mti = inv(mt) ; % Inverse de la matrice de transfert de la conversion phase-intensité
 algo.xc = ones(algo.n,1) ;%  .*exp(1i*[0 0.1 0.2 ]') ; % Champ complexe cible
 algo.yc = algo.mt*algo.xc ; % Champ complexe cible après filtrage
-algo.gain = 1 ;
+algo.gain = abs( 1 + 0*rand(algo.n,1) ) ;
 
-%algo.mt = algo.mt.*exp(1i*[0 0.5 1]) ;
+% algo.mt = algo.mt.*exp(1i*[0 0.6 0.25]) ;
+% algo.mt = algo.mt.*exp(1i*1*eye(algo.n)) ;
 
 
 %%% Boucle PIM
